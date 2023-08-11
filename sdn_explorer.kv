@@ -1,0 +1,110 @@
+#: import slide kivy.uix.screenmanager.SlideTransition
+#: import C kivy.properties.get_color_from_hex
+
+<Main_widget>:
+    transition: slide(duration= 0.5)
+    Screen:
+        name: "connect_screen"
+        FloatLayout:
+            spacing:"10sp" # sp scale is better for different devices
+            padding: "10sp"
+            canvas.before:
+                Color:
+                    rgba: C("#00000033")
+                Rectangle:
+                    source: "Images/neural.png"
+                    pos: self.pos[0], self.size[1]/4
+                    size: self.size[0]/2, self.size[1]/1.7
+            Label:
+                text: "Connect to Server"
+                font_size: "40sp"
+                pos_hint: {"x":0.1, "top":0.9}
+                size_hint: 0.8, 0.1
+                color: C("#0000ffff")
+                bold: True
+                italic: True
+
+            InputField:
+                id: ip_address
+                description: "IP Address:"
+                hint_text: "192.168.1.105"
+                # just for debugging purpose
+                text: "192.168.1.105"
+                pos_hint: {"x":0.01, "top":0.7}
+                size_hint: 0.8, 0.2
+
+            InputField:
+                id: port
+                description: "Port Number:"
+                hint_text: "7777"
+                # just for debugging purpose
+                text: "7777"
+                input_filter: "int"
+                pos_hint: {"x":0.01, "top":0.5}
+                size_hint: 0.8, 0.2
+
+            Button:
+                text: "Connect"
+                bold: True
+                italic: True
+                pos_hint: {"right":0.9, "top":0.2}
+                size_hint: 0.3, 0.1
+                background_color: C("#00000000")
+                background_normal: ""
+                font_size: "40sp"
+                color: C("#0000ffff")
+                on_release:
+                    root.check_server_connection(ip_address.text, int(port.text))
+
+                canvas.before:
+                    Color:
+                        rgba: C("#0000aa")
+                    Line:
+                        width: 2
+                        rounded_rectangle:(self.pos[0], self.pos[1], self.size[0], self.size[1], 30)
+
+    Screen:
+        name: "main_screen"
+        on_enter:
+            root.topo_designer.max_width = play_area.width
+            root.topo_designer.max_height = play_area.height
+        BoxLayout:
+            padding: "5sp"
+            spacing: "5sp"
+            orientation: "vertical"
+            FloatLayout:
+                id: top_bar
+                size_hint: 1, 0.1
+                spacing: "10sp"
+                padding: "10sp"
+                canvas.before:
+                    Color:
+                        rgba: C("#00000022")
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                Button:
+                    text: "Tools"
+                    pos_hint: {"x":0.1, "top":0.9}
+                    size_hint: 0.2, 0.1
+                    font_size: "20sp"
+                    bold: True
+                    color: C("#000000ff")
+                Button:
+                    text: "reset"
+                    pos_hint: {"x":0.3, "top":0.9}
+                    size_hint: 0.2, 0.1
+                    font_size: "20sp"
+                    bold: True
+                    color: C("#000000ff")
+                    on_release:
+                        root.reprocess_data()
+
+
+            FloatLayout:
+                id: play_area
+                size_hint: 1, 0.8
+                spacing: "10sp"
+                padding: "10sp"
+
+

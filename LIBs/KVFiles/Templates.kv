@@ -1,0 +1,165 @@
+#: import slide kivy.uix.screenmanager.SlideTransition
+#: import C kivy.utils.get_color_from_hex
+
+<RoundButton@Button>
+    font_size: "30sp"
+    bold: True
+    italic: True
+    text_size: self.size
+    valign: "middle"
+    halign: "center"
+    background_normal: ""
+    background_down: ""
+    background_color: C("#00000000")
+    color: C("#000000")
+    canvas.before:
+        Color:
+            rgba: C("#ffffff77")
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+
+<InputField@BoxLayout>
+    orientation: "horizontal"
+    size_hint_y: None
+    height: "60sp"
+    text: ""
+    hint_text: ""
+    description: ""
+    input_filter: None
+    spacing: "10sp"
+    padding: "10sp"
+    canvas.before:
+        Color:
+            rgba: C("#00000000")
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+    Label:
+        text: root.description
+        font_size: "30sp"
+        bold: True
+        italic: True
+        text_size: self.size
+        valign: "middle"
+        halign: "center"
+        background_normal: ""
+        background_down: ""
+        background_color: C("#00000000")
+        color: C("#000000")
+        canvas.before:
+            Color:
+                rgba: C("#ffffff00")
+            RoundedRectangle:
+                pos: self.pos
+                size: self.size
+
+    EditedTextInput:
+        hint_text: root.hint_text
+        underscore_line: True
+        multiline: False
+        # add filter to allow only numbers
+        input_filter: root.input_filter
+        on_text:
+            root.text = self.text
+        on_text_validate:
+            root.text = self.text if self.text != "" else root.hint_text
+
+<RotatedTextLabel@FloatLayout>:
+    Label:
+        text: root.text
+        font_size: root.font_size
+        color: root.color
+        size_hint: None, None
+        size: self.texture_size
+        pos_hint: {"x":0, "y":0}
+        canvas.before:
+            PushMatrix
+            Rotate:
+                angle: root.angle if -90 <= root.angle <= 90 else (180 + root.angle if root.angle > 0 else root.angle - 180)
+                origin: self.center
+        canvas.after:
+            PopMatrix
+
+<EditedTextInput>:
+    foreground_color: C("#020f0bff")
+    text_size: [None,None]
+    keyboard_suggestions: True
+    valign: "bottom"
+    underscore_line: False
+    borders_color: (0,0,0,1)
+    hint_text_color: C("#020f0b88")
+    background_color: 0,0,0,0
+    selection_color:C("#56575655")
+    font_size:"25sp"
+    # on_text: print(self.text)
+    markup: True
+    cursor_color:(0,0,0,1)
+    shrank: False
+    write_tab: False
+    multiline: False
+    padding:[10,10] if self.height > 60 else [10,0.5*(self.height - self.line_height)]
+    canvas.after:
+        Color:
+            rgba: C('#FFFFFF00')
+            # seems that both Ellipses not important
+        Ellipse:
+            angle_start:180
+            angle_end:360
+            pos:(self.pos[0] - self.size[1]/2.0, self.pos[1])
+            size: (self.size[1], self.size[1])
+        Ellipse:
+            angle_start:360
+            angle_end:540
+            pos: (self.size[0] + self.pos[0] - self.size[1]/2.0, self.pos[1])
+            size: (self.size[1], self.size[1])
+        Color:
+            rgba: self.borders_color
+        Line:
+            points: self.pos[0] + (30 if self.shrank else 0) , self.pos[1] + int(self.size[1]/2.5), self.pos[0] + self.size[0] - (30 if self.shrank else 0), self.pos[1] + int(self.size[1]/2.5)
+            width: 1.2
+        Color:
+            rgba: self.borders_color if not self.underscore_line else C('#FFFFFF00')
+        Line:
+            points: self.pos[0], self.pos[1] + self.size[1], self.pos[0] + self.size[0], self.pos[1] + self.size[1]
+            width: 1.2
+        Line:
+            ellipse: self.pos[0] - self.size[1]/2.0, self.pos[1], self.size[1], self.size[1], 180, 360
+            width: 1.2
+        Line:
+            ellipse: self.size[0] + self.pos[0] - self.size[1]/2.0, self.pos[1], self.size[1], self.size[1], 360, 540
+            width: 1.2
+
+
+<ChooseButton@ToggleButton>
+    text: "Easy"
+    align: True
+    valign: "middle"
+    halign: "center"
+    text_size: self.size
+    font_size: "15sp"
+    background_color: C("#ffffff00") if self.state == "normal" else C("#0000aa00")
+    color: C("#111111ff")
+    bold: True
+    italic: True
+    group: "difficulty"
+    on_press:
+        self.state = "down"
+    canvas.before:
+        Color:
+            rgba: C("##eeeeee77") if self.state == "normal" else C("#0000aa77")
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+
+<DropDownButton@Button>
+    halign:"right"
+    valign: "center"
+    text_size: self.size
+    background_color:C("#777777ff")
+    color:0,0,0,0
+    opacity: 1
+    font_size:"20sp"
+    height: "60sp"
+    size_hint_y: None
+
