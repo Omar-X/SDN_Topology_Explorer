@@ -1,0 +1,4 @@
+fontTools==4.42.0
+Kivy==2.0.0rc3
+plyer==2.0.0
+setuptools==45.2.0
