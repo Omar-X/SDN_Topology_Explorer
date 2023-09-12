@@ -6,5 +6,5 @@
 > Link: https://github.com/Omar-X/POX_Controller
 
 
-## illustration Video
+## Illustration Video
 > link: https://youtu.be/zWkUAw-T21Q
